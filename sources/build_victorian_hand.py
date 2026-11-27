@@ -9,7 +9,7 @@ from sources.gswy import params as P
 from sources.gswy.build import collect, build_ttf, build_otf, build_woff2
 from sources.gswy.path import Path
 
-ROOT = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SLANT = 0.1763  # 10 degrees
 WIDTH = 0.94
 
