@@ -88,8 +88,10 @@ async function setFont(){
   const cssFamily=roundhand?'"Pinyon Script",cursive':(victorian?'"Gswy Victorian Hand",Georgia,serif':'"Gswy Serif",Georgia,serif');
   const status=document.querySelector("#fontStatus");
   const statusText=document.querySelector("#fontStatusText");
+  const fontStyle=victorian?"italic":"normal";
   preview.style.fontFamily=cssFamily;
-  document.querySelectorAll(".sample-card p").forEach(sample=>sample.style.fontFamily=cssFamily);
+  preview.style.fontStyle=fontStyle;
+  document.querySelectorAll(".sample-card p").forEach(sample=>{sample.style.fontFamily=cssFamily;sample.style.fontStyle=fontStyle});
   document.querySelector("#fontLabel").textContent=roundhand?"Pinyon Script · Roundhand reference":(victorian?"Gswy Victorian Hand · Italic":"Gswy Serif · Regular");
   document.querySelector(".version").textContent=roundhand?"ROUNDHAND · EXTERNAL REFERENCE":(victorian?"VICTORIAN HAND · ITALIC":"REGULAR · 0.3.0");
   status.dataset.state="loading";
