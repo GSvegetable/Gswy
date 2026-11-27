@@ -27,11 +27,11 @@ def g_two():
 
 def g_three():
     # 上下两个右向碗形以右侧弧干相连，左侧保留清晰的开口端。
-    p = annulus_sector(265, 495, 195, 165, 88, 32, 20, 160)
-    p.extend(annulus_sector(265, 165, 205, 175, 90, 32, 200, 340))
-    p.extend(rect(60, 520, 155, 560))
-    p.extend(rect(60, 85, 155, 125))
-    p.extend(rect(425, 105, 465, 555))
+    p = annulus_sector(265, 495, 195, 165, 88, 32, 0, 180)
+    p.extend(annulus_sector(265, 165, 205, 175, 90, 32, 180, 360))
+    p.extend(rect(60, 475, 155, 515))
+    p.extend(rect(60, 145, 155, 185))
+    p.extend(rect(425, 145, 465, 515))
     return 560, p
 
 
