@@ -189,14 +189,13 @@ def g_percent():
 
 
 def g_ampersand():
-    p = annulus_sector(300, 490, 155, 160, 78, 30, 325, 590)
-    p.extend(annulus_sector(280, 170, 200, 180, 88, 32, 30, 330))
-    # 中央连笔连接上环的下端与下环的右上端，尾笔从下环右下方伸出。
-    p.extend(diag(200, 368, 453, 260, 72, 48))
-    p.extend(diag(453, 80, 640, 0, 72, 48))
-    p.extend(rect(560, 0, 680, 40))
-    return 700, p
-
+    # 以 e/t 连字为骨架，让符号保留可辨认的文字结构。
+    from .lowercase import g_e, g_t
+    _ea, ep = g_e()
+    _ta, tp = g_t()
+    p = ep.extend(tp.translate(220))
+    p.extend(diag(470, 0, 350, 240, 68, 44))
+    return 780, p
 
 def g_at():
     p = annulus_sector(450, 330, 380, 390, 72, 30, -25, 330)
