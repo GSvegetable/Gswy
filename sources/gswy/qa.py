@@ -38,6 +38,15 @@ def source_checks(glyphs):
     if len(glyphs) < 200:
         fail(f"expected a broad Latin character set; found only {len(glyphs)} glyphs")
 
+    required_punctuation = {
+        0x2E: "period", 0x2C: "comma", 0x3A: "colon",
+        0x3B: "semicolon", 0x21: "exclam", 0x3F: "question",
+    }
+    for codepoint, expected_name in required_punctuation.items():
+        entry = glyphs.get(expected_name)
+        if not entry or entry[2] != codepoint:
+            fail(f"U+{codepoint:04X} must be registered as {expected_name}")
+
     for name, (advance, path, _unicode) in glyphs.items():
         if advance <= 0:
             fail(f"{name}: advance width must be positive")
