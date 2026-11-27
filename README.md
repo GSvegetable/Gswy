@@ -1,6 +1,6 @@
 # Gswy Serif
 
-一款**完全原创的参数化衬线字体**：所有字形由统一的 Python 笔画部件库（竖笔、衬线、碗形、拱形、斜笔）拼装生成，输出行业标准 UFO 设计源，并编译为 TTF / OTF / WOFF2 三种格式。
+一款**完全原创的参数化衬线字体**（Regular 0.2.0）：所有字形由统一的 Python 笔画部件库（竖笔、衬线、碗形、拱形、斜笔）拼装生成，输出行业标准 UFO 设计源，并编译为 TTF / OTF / WOFF2 三种格式。
 
 ![样张](docs/样张.png)
 
@@ -53,7 +53,7 @@ python3 -m sources.gswy.preview sample
 python3 -m sources.gswy.preview grid abcdefghijklmnopqrstuvwxyz
 ```
 
-## 仓库结构
+## 质量检查\n\n每次构建后运行源码与成品字体检查，核对必需字母、Unicode 映射、字形轮廓和 TTF / OTF / WOFF2 文件是否完整：\n\n```bash\npython3 -m sources.gswy.qa\n```\n\nGitHub Actions 会在推送到主分支、开发分支或提交 Pull Request 时自动构建并执行同一套检查，并将通过检查的 TTF / OTF / WOFF2 与字形检查 PNG 发布为 `gswy-serif-build` 构建产物。`build-font-assets.yml` 还会在分支推送后同步更新仓库内的字体成品、UFO 源和样张图。\n\n## 仓库结构
 
 ```
 sources/gswy/
@@ -76,7 +76,8 @@ docs/             设计定稿
 ## 工程要点
 
 - **统一部件库**：改一个参数（如衬线高度、主干粗细），全族字形联动更新
-- **绕向契约**：所有实心部件统一逆时针，重叠区域按非零环绕规则自然并集；构建前对每个字形做像素级连通性自检
+- **轮廓约定**：实心部件统一采用逆时针方向，字腔使用反向轮廓；质量检查会验证字形注册、轮廓基本结构与成品字体字符映射
+- **字体命名**：标点与符号使用 Adobe Glyph List 标准字形名，避免把可见字符直接当作 PostScript 字形名
 - **可编辑源**：UFO 源文件随仓库发布，任何字体编辑器都能接手继续打磨
 
 ## 路线图

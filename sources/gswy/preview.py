@@ -56,4 +56,5 @@ if __name__ == "__main__":
             [110, 110, 48, 36], "样张.png")
     elif mode == "grid":
         chars = sys.argv[2] if len(sys.argv) > 2 else "abcdefghijklmnopqrstuvwxyz"
-        render_grid(list(chars), 120, "网格.png")
+        out = sys.argv[3] if len(sys.argv) > 3 else "网格.png"
+        render_grid(list(chars), 120, out)

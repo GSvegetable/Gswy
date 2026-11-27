@@ -160,17 +160,17 @@ def extra_letters():
     # æ / Æ
     from .lowercase import g_a, g_e
     from .uppercase import g_A, g_E
-    pa = g_a()[1].extend(g_e()[1].translate(346))
-    out.append(("ae", 860, pa, 0xE6))
-    pA = g_A()[1].extend(g_E()[1].translate(430))
-    out.append(("AE", 1030, pA, 0xC6))
+    pa = g_a()[1].extend(g_e()[1].translate(420))
+    out.append(("ae", 950, pa, 0xE6))
+    pA = g_A()[1].extend(g_E()[1].translate(520))
+    out.append(("AE", 1150, pA, 0xC6))
     # œ / Œ
     from .lowercase import g_o
     from .uppercase import g_O
-    po = g_o()[1].extend(g_e()[1].translate(372))
-    out.append(("oe", 880, po, 0x153))
-    pO = g_O()[1].extend(g_E()[1].translate(530))
-    out.append(("OE", 1120, pO, 0x152))
+    po = g_o()[1].extend(g_e()[1].translate(440))
+    out.append(("oe", 970, po, 0x153))
+    pO = g_O()[1].extend(g_E()[1].translate(620))
+    out.append(("OE", 1250, pO, 0x152))
     # ø / Ø
     p = g_o()[1].extend(diag(90, -40, 450, 520, 64, 64))
     out.append(("oslash", 540, p, 0xF8))
