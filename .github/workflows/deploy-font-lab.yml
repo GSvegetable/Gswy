@@ -24,11 +24,21 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+      - name: Verify all local font assets
+        run: |
+          set -euo pipefail
+          for file in \
+            GswySerif-Regular.woff2 GswySerif-Regular.ttf \
+            GswyVictorianHand-Italic.woff2 GswyVictorianHand-Italic.ttf; do
+            test -s "fonts/$file" || { echo "Missing font asset: fonts/$file"; exit 1; }
+          done
       - name: Prepare website
         run: |
+          set -euo pipefail
           mkdir -p _site/fonts
           cp -R font-lab/. _site/
           cp fonts/GswySerif-Regular.woff2 fonts/GswySerif-Regular.ttf _site/fonts/
+          cp fonts/GswyVictorianHand-Italic.woff2 fonts/GswyVictorianHand-Italic.ttf _site/fonts/
           touch _site/.nojekyll
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
