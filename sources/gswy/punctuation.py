@@ -189,10 +189,11 @@ def g_percent():
 
 
 def g_ampersand():
-    p = annulus_sector(300, 490, 155, 160, 78, 30, -35, 270)
+    p = annulus_sector(300, 490, 155, 160, 78, 30, 325, 590)
     p.extend(annulus_sector(280, 170, 200, 180, 88, 32, 30, 330))
-    # 对角连笔由上左穿过两环，落向右下形成可辨识的 ampersand 尾笔。
-    p.extend(diag(220, 700, 640, 0, 84, 52))
+    # 中央连笔连接上环的下端与下环的右上端，尾笔从下环右下方伸出。
+    p.extend(diag(200, 368, 453, 260, 72, 48))
+    p.extend(diag(453, 80, 640, 0, 72, 48))
     p.extend(rect(560, 0, 680, 40))
     return 700, p
 
