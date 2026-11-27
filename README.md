@@ -4,11 +4,9 @@
 
 ## 字体实验室 · Font Lab
 
-**[打开 Gswy Font Lab →](font-lab/index.html)**
+**[立即打开 Gswy Font Lab →](https://gsvegetable.github.io/Gswy/)**
 
-在独立工作台中输入自己的文字，实时预览 Gswy Serif，并调整字号、行距和字距；支持预设样张、浅色 / 深色模式，适配手机与平板。实验室直接加载本仓库构建的真实字体文件。
-
-> 提示：上面的链接是实验室页面源码入口。若要作为可直接交互的网页访问，需要通过 GitHub Pages 等静态托管服务部署。
+输入自己的文字，实时预览 Gswy Serif，调整字号、行距和字距；支持预设样张、浅色 / 深色模式，适配手机与平板。实验室直接加载本仓库构建的真实字体文件。
 
 ![样张](docs/样张.png)
 
@@ -41,7 +39,7 @@
 body { font-family: "Gswy Serif", Georgia, serif; }
 ```
 
-打开 `specimen/index.html` 可查看完整字体样张页；`font-lab/index.html` 是独立字体实验室页面。
+打开 `specimen/index.html` 可查看完整字体样张页；`font-lab/index.html` 是实验室网页源码。
 
 ## 从源码构建
 
@@ -69,7 +67,7 @@ python3 -m sources.gswy.preview grid abcdefghijklmnopqrstuvwxyz
 python3 -m sources.gswy.qa
 ```
 
-GitHub Actions 会在推送到主分支、开发分支或提交 Pull Request 时自动构建并执行同一套检查，并将通过检查的 TTF / OTF / WOFF2 与字形检查 PNG 发布为 `gswy-serif-build` 构建产物。`build-font-assets.yml` 还会在分支推送后同步更新仓库内的字体成品、UFO 源和样张图。
+GitHub Actions 会在推送到主分支、开发分支或提交 Pull Request 时自动构建并执行同一套检查，并将通过检查的 TTF / OTF / WOFF2 与字形检查 PNG 发布为 `gswy-serif-build` 构建产物。`build-font-assets.yml` 还会在分支推送后同步更新仓库内的字体成品、UFO 源和样张图。`deploy-font-lab.yml` 会在实验室或字体文件更新后自动发布在线实验室。
 
 ## 仓库结构
 
@@ -85,9 +83,9 @@ sources/gswy/
   accents.py      重音符号与组合字形
   build.py        构建管线（UFO / TTF / OTF / WOFF2 / GPOS kerning）
   preview.py      渲染自检
-ufo/              UFO 设计源（可在 FontForge / Glyphs 等工具中继续编辑）
+ufo/              UFO 设计源
 fonts/            字体成品
-font-lab/         在线字体实验室页面
+font-lab/         在线字体实验室页面源码
 specimen/         样张展示页
 docs/             设计定稿
 ```
