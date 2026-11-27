@@ -8,6 +8,7 @@ import os
 from sources.gswy import params as P
 from sources.gswy.build import collect, build_ttf, build_otf, build_woff2
 from sources.gswy.path import Path
+from fontTools.ttLib import TTFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SLANT = 0.1763  # 10 degrees
@@ -43,6 +44,13 @@ def main():
         os.makedirs(fonts, exist_ok=True)
         ttf = build_ttf(glyphs, os.path.join(fonts, "GswyVictorianHand-Italic.ttf"))
         build_otf(glyphs, os.path.join(fonts, "GswyVictorianHand-Italic.otf"))
+        # Mark the binaries as a real italic face in font metadata as well as outlines.
+        for output in (ttf, os.path.join(fonts, "GswyVictorianHand-Italic.otf")):
+            font = TTFont(output)
+            font["post"].italicAngle = -10
+            font["OS/2"].fsSelection |= 0x01
+            font["head"].macStyle |= 0x02
+            font.save(output)
         build_woff2(ttf, os.path.join(fonts, "GswyVictorianHand-Italic.woff2"))
         print(f"Built {len(glyphs)} Victorian Hand italic glyphs")
     finally:
