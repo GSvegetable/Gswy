@@ -44,6 +44,17 @@ h2 { font-size: 15px; font-weight: 400; letter-spacing: .28em; text-transform: u
 .w4 { font-size: 30px; } .w5 { font-size: 22px; } .w6 { font-size: 16px; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
 .grid span { background: var(--paper); aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 34px; }
+.tester-controls { display: grid; grid-template-columns: 1fr; gap: 10px; max-width: 760px; }
+.tester-controls label { font: 13px/1.4 Georgia, serif; letter-spacing: .08em; color: #6b6355; }
+.tester-controls input[type="text"] { width: 100%; min-height: 48px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 2px; background: transparent; color: var(--ink); font: 16px Georgia, serif; }
+.size-control { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 10px; }
+.size-control label { display: flex; justify-content: space-between; }
+.size-control input { width: 100%; accent-color: var(--accent); }
+.live-sample { min-height: 150px; margin: 34px 0 24px; overflow-wrap: anywhere; font-size: 64px; line-height: 1.22; }
+.sample-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.sample-actions button { border: 1px solid var(--line); background: transparent; color: var(--ink); padding: 9px 13px; border-radius: 2px; font: 13px Georgia, serif; cursor: pointer; }
+.sample-actions button:hover, .sample-actions button:focus-visible { border-color: var(--accent); color: var(--accent); }
+@media (max-width: 560px) { .wrap { padding: 0 20px; } .hero { padding: 64px 0 48px; } .live-sample { min-height: 120px; } }
 .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
 .cols p { font-size: 17px; margin-bottom: 16px; text-align: justify; }
 .cols p.lead::first-letter { font-size: 58px; float: left; line-height: .85; padding-right: 8px; color: var(--accent); }
@@ -77,6 +88,26 @@ footer { padding: 40px 0 64px; font-size: 14px; color: #6b6355; }
       <div class="w4">Grumpy wizards make toxic brew for the evil Queen and Jack.</div>
       <div class="w5">Typography is the craft of endowing human language with a durable visual form. 0123456789</div>
       <div class="w6">Reading at text size requires a generous x-height, open counters and sturdy serifs — the quiet virtues of a well-made book face. “Hello,” she said — ‘fine!’ 100% @ $9.99</div>
+    </div>
+  </section>
+
+
+  <section class="tester" aria-labelledby="tester-title">
+    <h2 id="tester-title">Type Tester · 实时试排</h2>
+    <div class="tester-controls">
+      <label for="sample-input">输入你自己的文字</label>
+      <input id="sample-input" type="text" maxlength="180" value="A quiet typeface for thoughtful words." autocomplete="off">
+      <div class="size-control">
+        <label for="size-input">字号 <output id="size-output" for="size-input">64 px</output></label>
+        <input id="size-input" type="range" min="18" max="120" value="64">
+      </div>
+    </div>
+    <p class="live-sample" id="live-sample" aria-live="polite">A quiet typeface for thoughtful words.</p>
+    <div class="sample-actions" aria-label="试排示例">
+      <button type="button" data-sample="Hamburgefonstiv">字形结构</button>
+      <button type="button" data-sample="The quick brown fox jumps over the lazy dog.">英文段落</button>
+      <button type="button" data-sample="0123456789 € £ ¥ % &amp; @">数字与符号</button>
+      <button type="button" data-sample="À Á Â Ã Ä Å Æ Ç È É Ñ Ö Ø Œ Ü ß Ð Þ">扩展字符</button>
     </div>
   </section>
 
@@ -118,13 +149,35 @@ footer { padding: 40px 0 64px; font-size: 14px; color: #6b6355; }
   </footer>
 </div>
 <script>
-const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,:;!?‘’“”-–—()[]/*+−=<>#$%&@_¡¿«»°•†‡§¶©®¢£¥€ƒ…µàáâãäåèéêëìíîïñòóôõöùúûüýÿçÀÁÂÃÄÅÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝŸÇæœÆŒßøØÐðÞþ";
+const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,:;!?‘’“”-–—()[]/*+−=<>#$%&@_¡¿«»°•†‡§¶©®¢£¥€ƒ…µàáâãäåèéêëìíîïñòóôõöùúûüýÿçÀÁÂÃÄÅÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝŸÇæœÆŒßøØÐðÞþı´`¨¯¸ˆ˜˚˝˘˙˛ˇ";
 const grid = document.getElementById("grid");
 for (const ch of chars) {
   const s = document.createElement("span");
   s.textContent = ch;
+  s.title = "U+" + ch.codePointAt(0).toString(16).toUpperCase().padStart(4, "0");
   grid.appendChild(s);
 }
+
+const sampleInput = document.getElementById("sample-input");
+const sizeInput = document.getElementById("size-input");
+const sizeOutput = document.getElementById("size-output");
+const liveSample = document.getElementById("live-sample");
+function updateSample() {
+  liveSample.textContent = sampleInput.value || " ";
+  liveSample.style.fontSize = sizeInput.value + "px";
+  sizeOutput.value = sizeInput.value + " px";
+  sizeOutput.textContent = sizeInput.value + " px";
+}
+sampleInput.addEventListener("input", updateSample);
+sizeInput.addEventListener("input", updateSample);
+document.querySelectorAll("[data-sample]").forEach((button) => {
+  button.addEventListener("click", () => {
+    sampleInput.value = button.dataset.sample;
+    updateSample();
+    sampleInput.focus();
+  });
+});
+updateSample();
 </script>
 </body>
 </html>
