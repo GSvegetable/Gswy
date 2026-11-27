@@ -41,7 +41,8 @@ def g_exclam():
 
 
 def g_question():
-    p = annulus_sector(250, 520, 190, 180, 84, 32, 160, 270)
+    # 从问号下端向右、向上绕行，再以左上端收笔。
+    p = annulus_sector(250, 520, 190, 180, 84, 32, 270, 520)
     p.extend(rect(206, 180, 294, 360))
     p.extend(rect(60, 560, 140, 600))
     p.extend(dot(250, 52, 52))
