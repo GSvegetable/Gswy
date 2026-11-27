@@ -7,6 +7,7 @@
 <title>Gswy Font Lab — 字体实验室</title>
 <style>
 @font-face{font-family:"Gswy Serif";src:url("../fonts/GswySerif-Regular.woff2") format("woff2"),url("../fonts/GswySerif-Regular.ttf") format("truetype");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"Gswy Victorian Hand";src:url("../fonts/GswyVictorianHand-Italic.woff2") format("woff2"),url("../fonts/GswyVictorianHand-Italic.ttf") format("truetype");font-style:italic;font-weight:400;font-display:swap}
 :root{color-scheme:light;--bg:#f3f0e8;--panel:#fbfaf6;--ink:#24231f;--muted:#77746c;--line:#dedbd2;--accent:#9b4936;--soft:#ece8de;--shadow:0 18px 50px #2521160c}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
 body.dark{color-scheme:dark;--bg:#171817;--panel:#20221f;--ink:#ece9df;--muted:#a19e94;--line:#3a3c37;--accent:#d28b70;--soft:#292c28;--shadow:0 18px 50px #0005}
@@ -53,9 +54,10 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding-top:16px;display
   <section class="stage">
     <div class="stage-head"><span>Live specimen / 实时预览</span><span class="live"><i class="dot"></i> FONT LOADED</span></div>
     <div class="canvas"><div id="preview" contenteditable="true" spellcheck="false" role="textbox" aria-label="字体实时预览" data-placeholder="在这里直接输入文字……">A quiet typeface for thoughtful words.</div></div>
-    <div class="stage-foot"><span>Gswy Serif · Regular</span><span id="count">38 CHARACTERS</span></div>
+    <div class="stage-foot"><span id="fontLabel">Gswy Serif · Regular</span><span id="count">38 CHARACTERS</span></div>
   </section>
   <aside class="controls">
+    <div class="group"><div class="group-title"><label for="fontChoice">字体版本</label><span>TYPEFACE</span></div><select id="fontChoice" style="width:100%;padding:10px;background:var(--soft);border:1px solid var(--line);color:var(--ink);border-radius:2px"><option value="serif">Gswy Serif · Regular</option><option value="victorian">Gswy Victorian Hand · Italic</option></select></div>
     <div class="group"><div class="group-title"><label for="editor">你的文字</label><span>EDIT TEXT</span></div><textarea id="editor" maxlength="1200" spellcheck="false">A quiet typeface for thoughtful words.</textarea></div>
     <div class="group"><div class="group-title"><label for="size">字号</label><output class="value" id="sizeVal">72 px</output></div><input id="size" type="range" min="16" max="160" value="72"><div class="range-labels"><span>16 px</span><span>160 px</span></div></div>
     <div class="group"><div class="group-title"><label for="leading">行距</label><output class="value" id="leadingVal">1.25</output></div><input id="leading" type="range" min="90" max="200" value="125"><div class="range-labels"><span>紧凑</span><span>舒展</span></div></div>
@@ -74,15 +76,16 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding-top:16px;display
 <footer><span>GSWY SERIF · FONT LAB</span><span>ORIGINAL PARAMETRIC TYPEFACE · SIL OPEN FONT LICENSE 1.1</span></footer>
 </div>
 <script>
-const editor=document.querySelector("#editor"),preview=document.querySelector("#preview"),size=document.querySelector("#size"),leading=document.querySelector("#leading"),tracking=document.querySelector("#tracking");
+const editor=document.querySelector("#editor"),preview=document.querySelector("#preview"),size=document.querySelector("#size"),leading=document.querySelector("#leading"),tracking=document.querySelector("#tracking"),fontChoice=document.querySelector("#fontChoice");
+function setFont(){const victorian=fontChoice.value==="victorian";preview.style.fontFamily=victorian?'"Gswy Victorian Hand",Georgia,serif':'"Gswy Serif",Georgia,serif';document.querySelector("#fontLabel").textContent=victorian?"Gswy Victorian Hand · Italic":"Gswy Serif · Regular";document.querySelector(".version").textContent=victorian?"VICTORIAN HAND · ITALIC":"REGULAR · 0.3.0"}
 function sync(){preview.textContent=editor.value;preview.style.fontSize=size.value+"px";preview.style.lineHeight=(leading.value/100).toFixed(2);preview.style.letterSpacing=tracking.value+"px";document.querySelector("#sizeVal").textContent=size.value+" px";document.querySelector("#leadingVal").textContent=(leading.value/100).toFixed(2);document.querySelector("#trackingVal").textContent=tracking.value+" px";document.querySelector("#count").textContent=Array.from(editor.value).length+" CHARACTERS"}
-editor.addEventListener("input",sync);[size,leading,tracking].forEach(el=>el.addEventListener("input",sync));
+fontChoice.addEventListener("change",setFont);editor.addEventListener("input",sync);[size,leading,tracking].forEach(el=>el.addEventListener("input",sync));
 preview.addEventListener("input",()=>{editor.value=preview.innerText;sync()});
 document.querySelectorAll("[data-text]").forEach(btn=>btn.addEventListener("click",()=>{editor.value=btn.dataset.text;sync()}));
 document.querySelector("#reset").addEventListener("click",()=>{size.value=72;leading.value=125;tracking.value=0;sync()});
 document.querySelector("#copy").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(editor.value);document.querySelector("#copy").textContent="已复制";setTimeout(()=>document.querySelector("#copy").textContent="复制文字",1400)}catch{editor.select();document.execCommand("copy")}});
 document.querySelector("#theme").addEventListener("click",()=>{document.body.classList.toggle("dark");document.querySelector("#theme").textContent=document.body.classList.contains("dark")?"切换浅色":"切换深色";document.querySelector('meta[name="theme-color"]').content=document.body.classList.contains("dark")?"#171817":"#f3f0e8"});
-sync();
+setFont();sync();
 </script>
 </body>
 </html>

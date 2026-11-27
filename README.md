@@ -10,6 +10,15 @@
 
 ![样张](docs/样张.png)
 
+## 新字体方向 · Victorian Hand Italic
+
+新增独立的维多利亚时代手写风格试验款：以 1888 年伦敦书信与钢笔书写为灵感，采用约 10° 右倾、收窄字面和保留的粗细对比。它是手写感展示衬线体，不冒称完整连笔 Copperplate 字体；后续将继续逐字优化入口、收笔和连字。
+
+- TTF：`fonts/GswyVictorianHand-Italic.ttf`
+- OTF：`fonts/GswyVictorianHand-Italic.otf`
+- WOFF2：`fonts/GswyVictorianHand-Italic.woff2`
+- 源码：`sources/build_victorian_hand.py`
+
 ## 设计定位
 
 - **风格**：过渡风格衬线体（Transitional Serif），中等笔画粗细对比、括号形衬线（bracketed serifs），气质介于书卷气与现代感之间
@@ -27,7 +36,7 @@
 | --- | --- |
 | `GswySerif-Regular.ttf` | 桌面安装（Windows / macOS / Linux） |
 | `GswySerif-Regular.otf` | 桌面安装 / 专业排版软件（CFF 轮廓） |
-| `GswySerif-Regular.woff2` | 网页 `@font-face` |
+| `GswySerif-Regular.woff2` | 网页 `@font-face` |\n| `GswyVictorianHand-Italic.ttf` / `.otf` / `.woff2` | 维多利亚手写风格试验款 |
 
 网页用法：
 
