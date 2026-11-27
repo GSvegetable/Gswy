@@ -17,18 +17,21 @@ def g_one():
 
 
 def g_two():
-    p = annulus_sector(280, 470, 210, 190, 90, 32, 155, 340)
-    p.extend(rect(60, 480, 150, 520))
+    # 上半碗从右下绕过顶部回到左上，随后以斜干落向基线。
+    p = annulus_sector(280, 470, 210, 190, 90, 32, 340, 515)
+    p.extend(rect(60, 520, 150, 560))
     p.extend(diag(120, 18, 460, 400, 100, 80))
     p.extend(bar(60, 500, 0, 36))
     return 560, p
 
 
 def g_three():
-    p = annulus_sector(265, 495, 195, 165, 88, 32, 130, 380)
-    p.extend(annulus_sector(265, 165, 205, 175, 90, 32, -20, 230))
-    p.extend(rect(70, 560, 160, 600))
-    p.extend(rect(60, 60, 155, 100))
+    # 上下两个右向碗形以右侧弧干相连，左侧保留清晰的开口端。
+    p = annulus_sector(265, 495, 195, 165, 88, 32, 20, 160)
+    p.extend(annulus_sector(265, 165, 205, 175, 90, 32, 200, 340))
+    p.extend(rect(60, 520, 155, 560))
+    p.extend(rect(60, 85, 155, 125))
+    p.extend(rect(425, 105, 465, 555))
     return 560, p
 
 
@@ -42,7 +45,8 @@ def g_four():
 def g_five():
     p = bar(80, 480, 624, 36)
     p.extend(plain_stem(110, 180, DH, 88))
-    p.extend(annulus_sector(270, 190, 210, 190, 90, 32, 30, 180))
+    # 下半碗从左中段向右下展开，避免与 6 的闭合轮廓混淆。
+    p.extend(annulus_sector(270, 190, 210, 190, 90, 32, 180, 360))
     p.extend(rect(80, 560, 170, 660))
     return 560, p
 
