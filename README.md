@@ -33,7 +33,7 @@
 body { font-family: "Gswy Serif", Georgia, serif; }
 ```
 
-打开 `specimen/index.html` 可查看完整字体样张页。
+打开 `specimen/index.html` 可查看完整字体样张页；打开 `font-lab/index.html` 可进入独立的 **Gswy Font Lab 字体实验室**，实时输入文字并调整字号、行距与字距。
 
 ## 从源码构建
 
