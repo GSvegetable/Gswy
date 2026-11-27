@@ -2,6 +2,14 @@
 
 一款**完全原创的参数化衬线字体**（Regular 0.3.0）：所有字形由统一的 Python 笔画部件库（竖笔、衬线、碗形、拱形、斜笔）拼装生成，输出行业标准 UFO 设计源，并编译为 TTF / OTF / WOFF2 三种格式。
 
+## 字体实验室 · Font Lab
+
+**[打开 Gswy Font Lab →](font-lab/index.html)**
+
+在独立工作台中输入自己的文字，实时预览 Gswy Serif，并调整字号、行距和字距；支持预设样张、浅色 / 深色模式，适配手机与平板。实验室直接加载本仓库构建的真实字体文件。
+
+> 提示：上面的链接是实验室页面源码入口。若要作为可直接交互的网页访问，需要通过 GitHub Pages 等静态托管服务部署。
+
 ![样张](docs/样张.png)
 
 ## 设计定位
@@ -33,7 +41,7 @@
 body { font-family: "Gswy Serif", Georgia, serif; }
 ```
 
-打开 `specimen/index.html` 可查看完整字体样张页；打开 `font-lab/index.html` 可进入独立的 **Gswy Font Lab 字体实验室**，实时输入文字并调整字号、行距与字距。
+打开 `specimen/index.html` 可查看完整字体样张页；`font-lab/index.html` 是独立字体实验室页面。
 
 ## 从源码构建
 
@@ -53,7 +61,17 @@ python3 -m sources.gswy.preview sample
 python3 -m sources.gswy.preview grid abcdefghijklmnopqrstuvwxyz
 ```
 
-## 质量检查\n\n每次构建后运行源码与成品字体检查，核对必需字母、Unicode 映射、字形轮廓和 TTF / OTF / WOFF2 文件是否完整：\n\n```bash\npython3 -m sources.gswy.qa\n```\n\nGitHub Actions 会在推送到主分支、开发分支或提交 Pull Request 时自动构建并执行同一套检查，并将通过检查的 TTF / OTF / WOFF2 与字形检查 PNG 发布为 `gswy-serif-build` 构建产物。`build-font-assets.yml` 还会在分支推送后同步更新仓库内的字体成品、UFO 源和样张图。\n\n## 仓库结构
+## 质量检查
+
+每次构建后运行源码与成品字体检查，核对必需字母、Unicode 映射、字形轮廓和 TTF / OTF / WOFF2 文件是否完整：
+
+```bash
+python3 -m sources.gswy.qa
+```
+
+GitHub Actions 会在推送到主分支、开发分支或提交 Pull Request 时自动构建并执行同一套检查，并将通过检查的 TTF / OTF / WOFF2 与字形检查 PNG 发布为 `gswy-serif-build` 构建产物。`build-font-assets.yml` 还会在分支推送后同步更新仓库内的字体成品、UFO 源和样张图。
+
+## 仓库结构
 
 ```
 sources/gswy/
@@ -69,6 +87,7 @@ sources/gswy/
   preview.py      渲染自检
 ufo/              UFO 设计源（可在 FontForge / Glyphs 等工具中继续编辑）
 fonts/            字体成品
+font-lab/         在线字体实验室页面
 specimen/         样张展示页
 docs/             设计定稿
 ```
