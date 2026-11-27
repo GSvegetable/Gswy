@@ -1,0 +1,91 @@
+"""Source and compiled-font quality gate for Gswy Serif.
+
+Run after build with: python3 -m sources.gswy.qa
+"""
+from __future__ import annotations
+
+import os
+import sys
+from fontTools.ttLib import TTFont
+
+from .build import collect
+from . import params as P
+
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+FONT_FILES = {
+    "TTF": os.path.join(ROOT, "fonts", "GswySerif-Regular.ttf"),
+    "OTF": os.path.join(ROOT, "fonts", "GswySerif-Regular.otf"),
+    "WOFF2": os.path.join(ROOT, "fonts", "GswySerif-Regular.woff2"),
+}
+
+
+def fail(message: str) -> None:
+    raise SystemExit("FAIL: " + message)
+
+
+def source_checks(glyphs):
+    names = set(glyphs)
+    required = set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
+    missing = sorted(required - names)
+    if missing:
+        fail("missing required glyph names: " + ", ".join(missing))
+
+    codepoints = [entry[2] for entry in glyphs.values() if entry[2] is not None]
+    if len(codepoints) != len(set(codepoints)):
+        fail("duplicate Unicode codepoint mapping in source glyph registry")
+
+    if len(glyphs) < 200:
+        fail(f"expected a broad Latin character set; found only {len(glyphs)} glyphs")
+
+    for name, (advance, path, _unicode) in glyphs.items():
+        if advance <= 0:
+            fail(f"{name}: advance width must be positive")
+        if name != "space" and not path.contours:
+            fail(f"{name}: non-space glyph has no outline")
+        for index, contour in enumerate(path.contours):
+            if len(contour) < 3:
+                fail(f"{name}: contour {index} has too few segments")
+
+    return set(codepoints)
+
+
+def compiled_checks(label, path, expected_codepoints):
+    if not os.path.isfile(path):
+        fail(f"{label} file is missing: {path}")
+    try:
+        font = TTFont(path, recalcBBoxes=True, recalcTimestamp=False)
+    except Exception as exc:
+        fail(f"{label} cannot be opened by fontTools: {exc}")
+
+    cmap = font.getBestCmap() or {}
+    missing = sorted(expected_codepoints - set(cmap))
+    if missing:
+        preview = ", ".join(f"U+{cp:04X}" for cp in missing[:12])
+        fail(f"{label} is missing {len(missing)} source codepoints: {preview}")
+
+    family = next(
+        (record.toUnicode() for record in font["name"].names
+         if record.nameID == 1),
+        "",
+    )
+    if family != P.FAMILY:
+        fail(f"{label} family name is {family!r}, expected {P.FAMILY!r}")
+
+    if "hmtx" not in font or "head" not in font or "cmap" not in font:
+        fail(f"{label} is missing a required OpenType table")
+
+    print(f"PASS {label}: {len(cmap)} mapped characters, {len(font.getGlyphOrder())} glyphs")
+    font.close()
+
+
+def main():
+    glyphs = collect()
+    expected = source_checks(glyphs)
+    print(f"PASS source: {len(glyphs)} glyphs, {len(expected)} Unicode mappings")
+    for label, path in FONT_FILES.items():
+        compiled_checks(label, path, expected)
+    print("Gswy Serif quality gate passed.")
+
+
+if __name__ == "__main__":
+    main()
