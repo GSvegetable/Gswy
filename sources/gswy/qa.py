@@ -47,9 +47,10 @@ def source_checks(glyphs):
         if not entry or entry[2] != codepoint:
             fail(f"U+{codepoint:04X} must be registered as {expected_name}")
 
-    for name, (advance, path, _unicode) in glyphs.items():
-        if advance <= 0:
-            fail(f"{name}: advance width must be positive")
+    for name, (advance, path, codepoint) in glyphs.items():
+        is_combining_mark = codepoint is not None and 0x0300 <= codepoint <= 0x036F
+        if advance < 0 or (advance == 0 and not is_combining_mark):
+            fail(f"{name}: only combining marks may have zero advance width")
         if name != "space" and not path.contours:
             fail(f"{name}: non-space glyph has no outline")
         for index, contour in enumerate(path.contours):
