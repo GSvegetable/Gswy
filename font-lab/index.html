@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f3f0e8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet">
 <title>Gswy Font Lab — 字体实验室</title>
 <style>
 @font-face{font-family:"Gswy Serif";src:url("../fonts/GswySerif-Regular.woff2") format("woff2"),url("../fonts/GswySerif-Regular.ttf") format("truetype");font-style:normal;font-weight:400;font-display:swap}
@@ -57,7 +60,7 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding-top:16px;display
     <div class="stage-foot"><span id="fontLabel">Gswy Serif · Regular</span><span id="count">38 CHARACTERS</span></div>
   </section>
   <aside class="controls">
-    <div class="group"><div class="group-title"><label for="fontChoice">字体版本</label><span>TYPEFACE</span></div><select id="fontChoice" style="width:100%;padding:10px;background:var(--soft);border:1px solid var(--line);color:var(--ink);border-radius:2px"><option value="serif">Gswy Serif · Regular</option><option value="victorian">Gswy Victorian Hand · Italic</option></select></div>
+    <div class="group"><div class="group-title"><label for="fontChoice">字体版本</label><span>TYPEFACE</span></div><select id="fontChoice" style="width:100%;padding:10px;background:var(--soft);border:1px solid var(--line);color:var(--ink);border-radius:2px"><option value="serif">Gswy Serif · Regular</option><option value="victorian">Gswy Victorian Hand · Italic</option><option value="roundhand">Pinyon Script · Roundhand reference</option></select></div>
     <div class="group"><div class="group-title"><label for="editor">你的文字</label><span>EDIT TEXT</span></div><textarea id="editor" maxlength="1200" spellcheck="false">A quiet typeface for thoughtful words.</textarea></div>
     <div class="group"><div class="group-title"><label for="size">字号</label><output class="value" id="sizeVal">72 px</output></div><input id="size" type="range" min="16" max="160" value="72"><div class="range-labels"><span>16 px</span><span>160 px</span></div></div>
     <div class="group"><div class="group-title"><label for="leading">行距</label><output class="value" id="leadingVal">1.25</output></div><input id="leading" type="range" min="90" max="200" value="125"><div class="range-labels"><span>紧凑</span><span>舒展</span></div></div>
@@ -67,7 +70,7 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding-top:16px;display
     <div class="actions"><button class="primary" id="reset">重置参数</button><button class="primary" id="copy">复制文字</button></div>
   </aside>
 </main>
-<div class="info"><div><strong>关于字体</strong><br>当前加载的是项目真实构建的 GswySerif-Regular.woff2，不是系统字体模拟。</div><span>208 GLYPHS · 47 KERNING PAIRS<br>TTF / OTF / WOFF2</span></div>
+<div class="info"><div><strong>关于字体</strong><br>Gswy 两款字体均由本项目源码构建。Pinyon Script 是单独标注的圆体参考字样，在线加载，不属于 Gswy 原创字形。</div><span>GSWY · 208 GLYPHS / 47 KERNING PAIRS<br>REFERENCE: PINYON SCRIPT · NICOLE FALLY / EBEN SORKIN · OFL 1.1</span></div>
 <section class="samples"><div class="section-head"><h2>字体气质 / In context</h2><span>LIVE FONT SAMPLES</span></div><div class="sample-grid">
   <div class="sample-card"><small>01 / Display</small><p>Grace in every letter.</p></div>
   <div class="sample-card"><small>02 / Editorial</small><p>Words find their form.</p></div>
@@ -77,7 +80,7 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding-top:16px;display
 </div>
 <script>
 const editor=document.querySelector("#editor"),preview=document.querySelector("#preview"),size=document.querySelector("#size"),leading=document.querySelector("#leading"),tracking=document.querySelector("#tracking"),fontChoice=document.querySelector("#fontChoice");
-function setFont(){const victorian=fontChoice.value==="victorian";preview.style.fontFamily=victorian?'"Gswy Victorian Hand",Georgia,serif':'"Gswy Serif",Georgia,serif';document.querySelector("#fontLabel").textContent=victorian?"Gswy Victorian Hand · Italic":"Gswy Serif · Regular";document.querySelector(".version").textContent=victorian?"VICTORIAN HAND · ITALIC":"REGULAR · 0.3.0"}
+function setFont(){const choice=fontChoice.value;const victorian=choice==="victorian";const roundhand=choice==="roundhand";preview.style.fontFamily=roundhand?'"Pinyon Script",cursive':(victorian?'"Gswy Victorian Hand",Georgia,serif':'"Gswy Serif",Georgia,serif');document.querySelector("#fontLabel").textContent=roundhand?"Pinyon Script · Roundhand reference":(victorian?"Gswy Victorian Hand · Italic":"Gswy Serif · Regular");document.querySelector(".version").textContent=roundhand?"ROUNDHAND · EXTERNAL REFERENCE":(victorian?"VICTORIAN HAND · ITALIC":"REGULAR · 0.3.0")}
 function sync(){preview.textContent=editor.value;preview.style.fontSize=size.value+"px";preview.style.lineHeight=(leading.value/100).toFixed(2);preview.style.letterSpacing=tracking.value+"px";document.querySelector("#sizeVal").textContent=size.value+" px";document.querySelector("#leadingVal").textContent=(leading.value/100).toFixed(2);document.querySelector("#trackingVal").textContent=tracking.value+" px";document.querySelector("#count").textContent=Array.from(editor.value).length+" CHARACTERS"}
 fontChoice.addEventListener("change",setFont);editor.addEventListener("input",sync);[size,leading,tracking].forEach(el=>el.addEventListener("input",sync));
 preview.addEventListener("input",()=>{editor.value=preview.innerText;sync()});

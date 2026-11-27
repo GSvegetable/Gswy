@@ -19,6 +19,12 @@
 - WOFF2：`fonts/GswyVictorianHand-Italic.woff2`
 - 源码：`sources/build_victorian_hand.py`
 
+## 圆体书写参考 · Pinyon Script
+
+字体实验室新增一项独立的圆体参考样张，用于对照 19 世纪英式圆体（Roundhand）的连笔、粗细对比与书写节奏。该字体为 Nicole Fally 设计、Eben Sorkin 参与的 **Pinyon Script**，通过 Google Fonts 在线加载；它不是 Gswy 原创字体，也没有被重新打包或冒名发布。原作者与项目来源见 [Sorkin Type 的 Pinyon 仓库](https://github.com/SorkinType/Pinyon)，字体采用 SIL Open Font License 1.1。离线环境下此参考项可能无法加载。
+
+这项参考用于明确下一轮原创字形设计的目标：不能只靠整体倾斜旧字形，而应重新设计入口笔、收笔、连写过渡、粗细对比与字偶间距。Gswy 原创字体仍与参考字体分开呈现。
+
 ## 设计定位
 
 - **风格**：过渡风格衬线体（Transitional Serif），中等笔画粗细对比、括号形衬线（bracketed serifs），气质介于书卷气与现代感之间
