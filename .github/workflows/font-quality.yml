@@ -28,8 +28,13 @@ jobs:
         run: python -m sources.gswy.build
       - name: Validate source and compiled fonts
         run: python -m sources.gswy.qa
-      - name: Render specimen preview
-        run: python -m sources.gswy.preview sample && cp preview/样张.png docs/样张.png
+      - name: Render specimen and glyph inspection sheets
+        run: |
+          python -m sources.gswy.preview sample
+          python -m sources.gswy.preview grid "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" latin-grid.png
+          python -m sources.gswy.preview grid ".,:;!?‘’“”'-–—()[]/\\*+−=#$%&@_¡¿«»°•†‡§¶©®¢£¥€ƒ…µ" punctuation-grid.png
+          python -m sources.gswy.preview grid "ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝŸàáâãäåçèéêëìíîïñòóôõöùúûüýÿæÆœŒßøØÐðÞþ" accents-grid.png
+          cp preview/样张.png docs/样张.png
       - name: Commit generated font assets to the same-repository PR branch
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         run: |
@@ -49,4 +54,7 @@ jobs:
             fonts/GswySerif-Regular.otf
             fonts/GswySerif-Regular.woff2
             preview/样张.png
+            preview/latin-grid.png
+            preview/punctuation-grid.png
+            preview/accents-grid.png
           if-no-files-found: error
