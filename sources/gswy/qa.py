@@ -9,7 +9,7 @@ import sys
 from fontTools.ttLib import TTFont
 from fontTools.pens.boundsPen import BoundsPen
 
-from .build import collect
+from .build import collect, KERN_PAIRS
 from . import params as P
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -46,6 +46,12 @@ def source_checks(glyphs):
         entry = glyphs.get(expected_name)
         if not entry or entry[2] != codepoint:
             fail(f"U+{codepoint:04X} must be registered as {expected_name}")
+
+    if len(KERN_PAIRS) < 40:
+        fail(f"expected at least 40 kerning pairs; found {len(KERN_PAIRS)}")
+    for left, right in KERN_PAIRS:
+        if left not in names or right not in names:
+            fail(f"kerning pair {left}/{right} references a missing glyph")
 
     for name, (advance, path, codepoint) in glyphs.items():
         is_combining_mark = codepoint is not None and 0x0300 <= codepoint <= 0x036F
@@ -84,6 +90,14 @@ def compiled_checks(label, path, expected_codepoints):
 
     if "hmtx" not in font or "head" not in font or "cmap" not in font:
         fail(f"{label} is missing a required OpenType table")
+    if font["head"].unitsPerEm != P.UPM:
+        fail(f"{label} unitsPerEm is {font['head'].unitsPerEm}, expected {P.UPM}")
+    if "GPOS" not in font:
+        fail(f"{label} is missing OpenType GPOS kerning")
+    feature_list = getattr(font["GPOS"].table, "FeatureList", None)
+    feature_tags = {record.FeatureTag for record in feature_list.FeatureRecord} if feature_list else set()
+    if "kern" not in feature_tags:
+        fail(f"{label} is missing the GPOS kern feature")
 
     glyph_set = font.getGlyphSet()
     for codepoint in expected_codepoints:
