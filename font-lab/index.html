@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
 <title>Gswy Font Lab — 字体实验室</title>
 <style>
 @font-face{font-family:"Gswy Serif";src:url("./fonts/GswySerif-Regular.woff2") format("woff2"),url("./fonts/GswySerif-Regular.ttf") format("truetype");font-style:normal;font-weight:400;font-display:swap}
@@ -66,15 +67,15 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding-top:16px;display
     <div class="group"><div class="group-title"><label for="leading">行距</label><output class="value" id="leadingVal">1.25</output></div><input id="leading" type="range" min="90" max="200" value="125"><div class="range-labels"><span>紧凑</span><span>舒展</span></div></div>
     <div class="group"><div class="group-title"><label for="tracking">字距</label><output class="value" id="trackingVal">0 px</output></div><input id="tracking" type="range" min="-4" max="20" value="0"><div class="range-labels"><span>-4 px</span><span>20 px</span></div></div>
     <div class="divider"></div>
-    <div class="group"><div class="group-title">快速试样 <span>PRESETS</span></div><div class="presets"><button class="preset" data-text="Hamburgefonstiv">字形结构</button><button class="preset" data-text="The quick brown fox jumps over the lazy dog.">完整句子</button><button class="preset" data-text="0123456789 € £ ¥ % &amp; @">数字符号</button><button class="preset" data-text="À Á Â Ã Ä Å Æ Ç É Ñ Ö Ø Œ Ü ß Ð Þ">重音字符</button><button class="preset" data-text="Typography is the craft of giving language a visual voice.">排印段落</button></div></div>
+    <div class="group"><div class="group-title">快速试样 <span>PRESETS</span></div><div class="presets"><button class="preset" data-text="Hamburgefonstiv">字形结构</button><button class="preset" data-text="The quick brown fox jumps over the lazy dog.">完整句子</button><button class="preset" data-text="0123456789 € £ ¥ % &amp; @">数字符号</button><button class="preset" data-text="À Á Â Ã Ä Å Æ Ç É Ñ Ö Ø Œ Ü ß Ð Þ">重音字符</button><button class="preset" data-text="Typography is the craft of giving language a visual voice.">排印段落</button><button class="preset" data-text="优雅，不止于字形。中文与英文，也可以共享同一种气质。 Grace in every letter.">中英混排</button></div></div>
     <div class="actions"><button class="primary" id="reset">重置参数</button><button class="primary" id="copy">复制文字</button></div>
   </aside>
 </main>
-<div class="info"><div><strong>关于字体</strong><br>Gswy 两款字体均由本项目源码构建。Pinyon Script 是单独标注的圆体参考字样，在线加载，不属于 Gswy 原创字形。</div><span>GSWY · 208 GLYPHS / 47 KERNING PAIRS<br>REFERENCE: PINYON SCRIPT · NICOLE FALLY / EBEN SORKIN · OFL 1.1</span></div>
+<div class="info"><div><strong>关于字体</strong><br>Gswy 两款字体均由本项目源码构建。Pinyon Script 的拉丁字母保持原有圆体书写风格；中文自动使用 Noto Serif SC 衬线字体补位，让中英混排更协调。Pinyon 本身并未被改造成中文字体。</div><span>GSWY · 208 GLYPHS / 47 KERNING PAIRS<br>REFERENCE: PINYON SCRIPT · NICOLE FALLY / EBEN SORKIN · OFL 1.1</span></div>
 <section class="samples"><div class="section-head"><h2>字体气质 / In context</h2><span>LIVE FONT SAMPLES</span></div><div class="sample-grid">
-  <div class="sample-card"><small>01 / Display</small><p>Grace in every letter.</p></div>
-  <div class="sample-card"><small>02 / Editorial</small><p>Words find their form.</p></div>
-  <div class="sample-card"><small>03 / Numerals</small><p>0123456789</p></div>
+  <div class="sample-card"><small>01 / Display</small><p>Grace in every letter.<br>字里行间，自有风雅。</p></div>
+  <div class="sample-card"><small>02 / Editorial</small><p>Words find their form.<br>让文字拥有自己的形态。</p></div>
+  <div class="sample-card"><small>03 / Numerals</small><p>0123456789<br>字体实验室 · 2026</p></div>
 </div></section>
 <footer><span>GSWY SERIF · FONT LAB</span><span>ORIGINAL PARAMETRIC TYPEFACE · SIL OPEN FONT LICENSE 1.1</span></footer>
 </div>
@@ -85,7 +86,7 @@ async function setFont(){
   const victorian=choice==="victorian";
   const roundhand=choice==="roundhand";
   const family=roundhand?"Pinyon Script":(victorian?"Gswy Victorian Hand":"Gswy Serif");
-  const cssFamily=roundhand?'"Pinyon Script",cursive':(victorian?'"Gswy Victorian Hand",Georgia,serif':'"Gswy Serif",Georgia,serif');
+  const cssFamily=roundhand?'"Pinyon Script","Noto Serif SC","Songti SC","STSong",serif':(victorian?'"Gswy Victorian Hand",Georgia,serif':'"Gswy Serif",Georgia,serif');
   const status=document.querySelector("#fontStatus");
   const statusText=document.querySelector("#fontStatusText");
   const fontStyle=victorian?"italic":"normal";
@@ -101,7 +102,7 @@ async function setFont(){
     const loaded=await document.fonts.load(descriptor,"Hamburgefonstiv 0123456789");
     if(loaded.length===0 || !document.fonts.check(descriptor,"Hamburgefonstiv")) throw new Error("Font face unavailable");
     status.dataset.state="loaded";
-    statusText.textContent=roundhand?"参考字体已加载":"字体已加载";
+    statusText.textContent=roundhand?"英文圆体已加载 · 中文衬线配字已启用":"字体已加载";
   }catch(error){
     status.dataset.state="error";
     statusText.textContent=roundhand?"参考字体不可用（请检查网络）":"字体加载失败，请刷新或检查部署文件";
