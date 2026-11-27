@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="uni2022" format="2">
+  <advance width="400"/>
+  <unicode hex="2022"/>
+  <outline>
+    <contour>
+      <point x="285.0" y="323.188667436768"/>
+      <point x="246.94420373561744" y="358.2"/>
+      <point x="200.0" y="358.2" type="curve"/>
+      <point x="153.05579626438256" y="358.2"/>
+      <point x="115.0" y="323.188667436768"/>
+      <point x="115.0" y="280.0" type="curve"/>
+      <point x="115.0" y="236.81133256323196"/>
+      <point x="153.05579626438254" y="201.8"/>
+      <point x="199.99999999999997" y="201.8" type="curve"/>
+      <point x="246.9442037356174" y="201.8"/>
+      <point x="285.0" y="236.81133256323196"/>
+      <point x="285.0" y="280.0" type="curve"/>
+    </contour>
+  </outline>
+</glyph>
