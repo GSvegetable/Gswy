@@ -7,6 +7,7 @@ from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.pens.cu2quPen import Cu2QuPen
 from fontTools.pens.t2CharStringPen import T2CharStringPen
 from fontTools.ttLib import TTFont
+from fontTools.agl import UV2AGL
 
 from . import params as P
 from .path import Path, rect
@@ -38,7 +39,7 @@ def collect():
         from .punctuation import PUNCT
         for ch, fn in PUNCT.items():
             adv, path = fn()
-            name = ch if ch.isascii() else "uni%04X" % ord(ch)
+            name = UV2AGL.get(ord(ch), "uni%04X" % ord(ch))
             glyphs[name] = (adv, path, ord(ch))
     except ImportError:
         pass
