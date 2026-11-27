@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build-and-check:
@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -28,6 +30,16 @@ jobs:
         run: python -m sources.gswy.qa
       - name: Render specimen preview
         run: python -m sources.gswy.preview sample
+      - name: Commit generated font assets to the same-repository PR branch
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add fonts/GswySerif-Regular.ttf fonts/GswySerif-Regular.otf fonts/GswySerif-Regular.woff2 ufo/ docs/样张.png
+          if ! git diff --cached --quiet; then
+            git commit -m "Build verified Gswy Serif font assets"
+            git push
+          fi
       - name: Publish built font and preview artifact
         uses: actions/upload-artifact@v4
         with:
