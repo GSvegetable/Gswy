@@ -78,15 +78,16 @@ def g_O():
 def g_C():
     p = annulus_sector(360, 350, 310, 362, CSTEM, CTHIN, 40, 320)
     p.extend(rect(505, 556, 640, 600))
+    p.extend(rect(505, 100, 640, 144))
     return 680, p
 
 
 def g_G():
-    # 开口只在右上（-5°~40°），右侧下半保留圆环以便接竖桩
-    p = annulus_sector(360, 350, 310, 362, CSTEM, CTHIN, -5, 320)
+    # 开口位于右上（约 355°→40°）；下端以短竖桩和横杠形成清晰的 G。
+    p = annulus_sector(360, 350, 310, 362, CSTEM, CTHIN, 40, 355)
     p.extend(rect(505, 556, 640, 600))
-    p.extend(rect(570, 170, 670, 360))
-    p.extend(bar(470, 670, 326, 34))
+    p.extend(rect(610, 170, 670, 360))
+    p.extend(bar(470, 670, 326, CTHIN))
     return 740, p
 
 

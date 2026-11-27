@@ -38,6 +38,12 @@
       <point x="505.0" y="556.0" type="line"/>
     </contour>
     <contour>
+      <point x="640.0" y="100.0" type="line"/>
+      <point x="640.0" y="144.0" type="line"/>
+      <point x="505.0" y="144.0" type="line"/>
+      <point x="505.0" y="100.0" type="line"/>
+    </contour>
+    <contour>
       <point x="361.0" y="-60.0" type="line"/>
       <point x="361.0" y="10.0" type="line"/>
       <point x="329.0" y="10.0" type="line"/>

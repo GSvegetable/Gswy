@@ -24,4 +24,4 @@ LSB = 40           # 常规左边距参考
 
 FAMILY = "Gswy Serif"
 STYLE = "Regular"
-VERSION = "0.2.0"
+VERSION = "0.3.0"
