@@ -4,9 +4,9 @@
 
 ## 字体实验室 · Font Lab
 
-**[立即打开 Gswy Font Lab →](https://gsvegetable.github.io/Gswy/)**
+**[启用并打开 Gswy Font Lab →](https://github.com/GSvegetable/Gswy/settings/pages)**
 
-输入自己的文字，实时预览 Gswy Serif，调整字号、行距和字距；支持预设样张、浅色 / 深色模式，适配手机与平板。实验室直接加载本仓库构建的真实字体文件。
+首次使用需在仓库 Settings → Pages → Build and deployment 中将 Source 设为 **GitHub Actions**。保存后，仓库会自动部署字体实验室；部署成功后访问 https://gsvegetable.github.io/Gswy/ 。输入自己的文字即可实时预览 Gswy Serif，并调整字号、行距和字距。支持预设样张、浅色 / 深色模式，适配手机与平板。
 
 ![样张](docs/样张.png)
 
