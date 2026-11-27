@@ -193,9 +193,10 @@ def g_ampersand():
     from .lowercase import g_e, g_t
     _ea, ep = g_e()
     _ta, tp = g_t()
-    p = ep.extend(tp.translate(220))
-    p.extend(diag(470, 0, 350, 240, 68, 44))
-    return 780, p
+    p = ep.extend(tp.translate(260))
+    # 下环尾部向右下方伸出一笔，避免符号退化为普通的 et 连字。
+    p.extend(diag(420, 80, 650, 0, 68, 42))
+    return 820, p
 
 def g_at():
     p = annulus_sector(450, 330, 380, 390, 72, 30, -25, 330)
