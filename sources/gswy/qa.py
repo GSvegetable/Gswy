@@ -7,6 +7,7 @@ from __future__ import annotations
 import os
 import sys
 from fontTools.ttLib import TTFont
+from fontTools.pens.boundsPen import BoundsPen
 
 from .build import collect
 from . import params as P
@@ -73,6 +74,25 @@ def compiled_checks(label, path, expected_codepoints):
 
     if "hmtx" not in font or "head" not in font or "cmap" not in font:
         fail(f"{label} is missing a required OpenType table")
+
+    glyph_set = font.getGlyphSet()
+    for codepoint in expected_codepoints:
+        glyph_name = cmap.get(codepoint)
+        if not glyph_name or glyph_name == ".notdef" or glyph_name not in glyph_set:
+            fail(f"{label}: U+{codepoint:04X} does not resolve to a real glyph")
+        if codepoint != 0x20:
+            pen = BoundsPen(glyph_set)
+            glyph_set[glyph_name].draw(pen)
+            if pen.bounds is None:
+                fail(f"{label}: U+{codepoint:04X} ({glyph_name}) has an empty outline")
+
+    punctuation_names = {
+        0x2E: "period", 0x2C: "comma", 0x3A: "colon",
+        0x3B: "semicolon", 0x21: "exclam", 0x3F: "question",
+    }
+    for codepoint, expected_name in punctuation_names.items():
+        if cmap.get(codepoint) != expected_name:
+            fail(f"{label}: U+{codepoint:04X} should map to {expected_name}, got {cmap.get(codepoint)!r}")
 
     print(f"PASS {label}: {len(cmap)} mapped characters, {len(font.getGlyphOrder())} glyphs")
     font.close()
