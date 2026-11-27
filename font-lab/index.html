@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f3f0e8">
+<title>Gswy Font Lab — 字体实验室</title>
+<style>
+@font-face{font-family:"Gswy Serif";src:url("../fonts/GswySerif-Regular.woff2") format("woff2"),url("../fonts/GswySerif-Regular.ttf") format("truetype");font-style:normal;font-weight:400;font-display:swap}
+:root{color-scheme:light;--bg:#f3f0e8;--panel:#fbfaf6;--ink:#24231f;--muted:#77746c;--line:#dedbd2;--accent:#9b4936;--soft:#ece8de;--shadow:0 18px 50px #2521160c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+body.dark{color-scheme:dark;--bg:#171817;--panel:#20221f;--ink:#ece9df;--muted:#a19e94;--line:#3a3c37;--accent:#d28b70;--soft:#292c28;--shadow:0 18px 50px #0005}
+button,input,textarea,select{font:inherit}button{cursor:pointer}
+.shell{max-width:1440px;margin:auto;padding:28px clamp(16px,4vw,56px) 48px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid var(--line);padding:4px 0 22px}
+.brand{display:flex;align-items:center;gap:12px}.mark{width:34px;height:34px;border:1px solid var(--ink);display:grid;place-items:center;font:22px/1 "Gswy Serif",Georgia,serif}.brand strong{font:20px "Gswy Serif",Georgia,serif;letter-spacing:.02em}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:.18em;text-transform:uppercase;margin-top:3px}
+.top-actions{display:flex;gap:8px}.quiet,.chip,.preset{border:1px solid var(--line);background:transparent;color:var(--ink);padding:9px 12px;border-radius:3px;font-size:12px}.quiet:hover,.chip:hover,.preset:hover{border-color:var(--accent);color:var(--accent)}
+.intro{padding:42px 0 30px;display:flex;justify-content:space-between;align-items:end;gap:24px}.eyebrow{font-size:10px;letter-spacing:.2em;color:var(--accent);text-transform:uppercase}.intro h1{font:clamp(36px,6vw,68px)/1.02 "Gswy Serif",Georgia,serif;font-weight:400;margin:12px 0 10px;letter-spacing:-.035em}.intro p{margin:0;color:var(--muted);font-size:14px;line-height:1.7;max-width:570px}.version{white-space:nowrap;color:var(--muted);font:12px Georgia,serif;padding-bottom:5px}
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:16px;align-items:stretch}
+.stage{background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow);min-width:0;display:flex;flex-direction:column}
+.stage-head{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.live{display:flex;align-items:center;gap:7px}.dot{width:6px;height:6px;border-radius:50%;background:#6d9274}
+.canvas{padding:clamp(22px,4vw,54px);min-height:420px;display:flex;align-items:center;justify-content:center;position:relative}
+#preview{font-family:"Gswy Serif",Georgia,serif;font-size:72px;line-height:1.25;letter-spacing:0;white-space:pre-wrap;overflow-wrap:anywhere;width:100%;outline:none;min-height:210px;display:flex;align-items:center;transition:font-size .12s;caret-color:var(--accent)}
+#preview:empty:before{content:attr(data-placeholder);color:var(--muted);opacity:.5}
+.stage-foot{border-top:1px solid var(--line);padding:12px 18px;display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:11px}
+.controls{background:var(--panel);border:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:20px}
+.group{display:flex;flex-direction:column;gap:10px}.group-title{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}.value{color:var(--ink);font-variant-numeric:tabular-nums}
+textarea{width:100%;min-height:105px;resize:vertical;background:var(--soft);border:1px solid var(--line);color:var(--ink);padding:12px;line-height:1.6;font-size:13px;border-radius:2px;outline:none}textarea:focus{border-color:var(--accent)}
+input[type=range]{width:100%;accent-color:var(--accent)}.range-labels{display:flex;justify-content:space-between;color:var(--muted);font-size:10px}
+.presets{display:flex;flex-wrap:wrap;gap:6px}.preset{padding:7px 9px;font-size:11px}
+.divider{height:1px;background:var(--line);margin:0}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.primary{background:var(--ink);color:var(--panel);border:1px solid var(--ink);padding:11px 10px;border-radius:2px;font-size:12px}.primary:hover{background:var(--accent);border-color:var(--accent)}
+.info{margin-top:18px;padding:16px 18px;border:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;color:var(--muted);font-size:11px;line-height:1.7}.info strong{color:var(--ink);font-weight:500}
+.samples{padding-top:34px}.section-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}.section-head h2{font:22px "Gswy Serif",Georgia,serif;font-weight:400;margin:0}.section-head span{color:var(--muted);font-size:11px}
+.sample-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.sample-card{background:var(--panel);border:1px solid var(--line);padding:16px;min-width:0}.sample-card small{color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase}.sample-card p{font:clamp(22px,3vw,34px)/1.25 "Gswy Serif",Georgia,serif;margin:16px 0 2px;overflow-wrap:anywhere}
+footer{border-top:1px solid var(--line);margin-top:40px;padding-top:16px;display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:10px}
+@media(max-width:850px){.workspace{grid-template-columns:1fr}.controls{display:grid;grid-template-columns:1fr 1fr;gap:18px}.controls .divider{display:none}.canvas{min-height:330px}#preview{min-height:170px}.intro{padding-top:32px}}
+@media(max-width:560px){.shell{padding:16px 14px 32px}.top{padding-bottom:16px}.intro{display:block;padding:30px 0 22px}.version{margin-top:12px}.controls{grid-template-columns:1fr}.canvas{padding:24px 18px;min-height:280px}#preview{font-size:48px!important;min-height:150px}.sample-grid{grid-template-columns:1fr}.sample-card p{font-size:28px}.info,footer{display:block}.info span,footer span{display:block;margin-top:6px}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="top">
+  <div class="brand"><div class="mark">G</div><div><strong>Gswy Serif</strong><small>TYPE DESIGN / LABORATORY</small></div></div>
+  <div class="top-actions"><button class="quiet" id="theme">切换深色</button><a class="quiet" href="../" style="text-decoration:none">项目主页 ↗</a></div>
+</header>
+<section class="intro">
+  <div><div class="eyebrow">A space to shape words</div><h1>字体实验室</h1><p>在这里输入文字，实时感受 Gswy Serif 的字形、节奏与气质。调整字号、行距和字距，找到最适合你的排印状态。</p></div>
+  <div class="version">REGULAR · 0.3.0</div>
+</section>
+<main class="workspace">
+  <section class="stage">
+    <div class="stage-head"><span>Live specimen / 实时预览</span><span class="live"><i class="dot"></i> FONT LOADED</span></div>
+    <div class="canvas"><div id="preview" contenteditable="true" spellcheck="false" role="textbox" aria-label="字体实时预览" data-placeholder="在这里直接输入文字……">A quiet typeface for thoughtful words.</div></div>
+    <div class="stage-foot"><span>Gswy Serif · Regular</span><span id="count">38 CHARACTERS</span></div>
+  </section>
+  <aside class="controls">
+    <div class="group"><div class="group-title"><label for="editor">你的文字</label><span>EDIT TEXT</span></div><textarea id="editor" maxlength="1200" spellcheck="false">A quiet typeface for thoughtful words.</textarea></div>
+    <div class="group"><div class="group-title"><label for="size">字号</label><output class="value" id="sizeVal">72 px</output></div><input id="size" type="range" min="16" max="160" value="72"><div class="range-labels"><span>16 px</span><span>160 px</span></div></div>
+    <div class="group"><div class="group-title"><label for="leading">行距</label><output class="value" id="leadingVal">1.25</output></div><input id="leading" type="range" min="90" max="200" value="125"><div class="range-labels"><span>紧凑</span><span>舒展</span></div></div>
+    <div class="group"><div class="group-title"><label for="tracking">字距</label><output class="value" id="trackingVal">0 px</output></div><input id="tracking" type="range" min="-4" max="20" value="0"><div class="range-labels"><span>-4 px</span><span>20 px</span></div></div>
+    <div class="divider"></div>
+    <div class="group"><div class="group-title">快速试样 <span>PRESETS</span></div><div class="presets"><button class="preset" data-text="Hamburgefonstiv">字形结构</button><button class="preset" data-text="The quick brown fox jumps over the lazy dog.">完整句子</button><button class="preset" data-text="0123456789 € £ ¥ % &amp; @">数字符号</button><button class="preset" data-text="À Á Â Ã Ä Å Æ Ç É Ñ Ö Ø Œ Ü ß Ð Þ">重音字符</button><button class="preset" data-text="Typography is the craft of giving language a visual voice.">排印段落</button></div></div>
+    <div class="actions"><button class="primary" id="reset">重置参数</button><button class="primary" id="copy">复制文字</button></div>
+  </aside>
+</main>
+<div class="info"><div><strong>关于字体</strong><br>当前加载的是项目真实构建的 GswySerif-Regular.woff2，不是系统字体模拟。</div><span>208 GLYPHS · 47 KERNING PAIRS<br>TTF / OTF / WOFF2</span></div>
+<section class="samples"><div class="section-head"><h2>字体气质 / In context</h2><span>LIVE FONT SAMPLES</span></div><div class="sample-grid">
+  <div class="sample-card"><small>01 / Display</small><p>Grace in every letter.</p></div>
+  <div class="sample-card"><small>02 / Editorial</small><p>Words find their form.</p></div>
+  <div class="sample-card"><small>03 / Numerals</small><p>0123456789</p></div>
+</div></section>
+<footer><span>GSWY SERIF · FONT LAB</span><span>ORIGINAL PARAMETRIC TYPEFACE · SIL OPEN FONT LICENSE 1.1</span></footer>
+</div>
+<script>
+const editor=document.querySelector("#editor"),preview=document.querySelector("#preview"),size=document.querySelector("#size"),leading=document.querySelector("#leading"),tracking=document.querySelector("#tracking");
+function sync(){preview.textContent=editor.value;preview.style.fontSize=size.value+"px";preview.style.lineHeight=(leading.value/100).toFixed(2);preview.style.letterSpacing=tracking.value+"px";document.querySelector("#sizeVal").textContent=size.value+" px";document.querySelector("#leadingVal").textContent=(leading.value/100).toFixed(2);document.querySelector("#trackingVal").textContent=tracking.value+" px";document.querySelector("#count").textContent=Array.from(editor.value).length+" CHARACTERS"}
+editor.addEventListener("input",sync);[size,leading,tracking].forEach(el=>el.addEventListener("input",sync));
+preview.addEventListener("input",()=>{editor.value=preview.innerText;sync()});
+document.querySelectorAll("[data-text]").forEach(btn=>btn.addEventListener("click",()=>{editor.value=btn.dataset.text;sync()}));
+document.querySelector("#reset").addEventListener("click",()=>{size.value=72;leading.value=125;tracking.value=0;sync()});
+document.querySelector("#copy").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(editor.value);document.querySelector("#copy").textContent="已复制";setTimeout(()=>document.querySelector("#copy").textContent="复制文字",1400)}catch{editor.select();document.execCommand("copy")}});
+document.querySelector("#theme").addEventListener("click",()=>{document.body.classList.toggle("dark");document.querySelector("#theme").textContent=document.body.classList.contains("dark")?"切换浅色":"切换深色";document.querySelector('meta[name="theme-color"]').content=document.body.classList.contains("dark")?"#171817":"#f3f0e8"});
+sync();
+</script>
+</body>
+</html>
